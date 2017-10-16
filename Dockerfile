@@ -3,9 +3,9 @@ MAINTAINER nao20010128nao
 
 EXPOSE 80 8080
 ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8
-CMD ["/root/exec.sh"]
+CMD ["bash","-c","cat /root/exec.sh | bash"]
 ADD server.groovy /root
-ADD server/ /root
+ADD server/ /root/server/
 
 RUN bash -c "\
     apt-get update && \
@@ -25,9 +25,10 @@ RUN bash -c "\
     source $HOME/.sdkman/bin/sdkman-init.sh && \
     sdk install groovy && \
     groovy -version && \
-    echo 'xvfb-run firefox http://nao20010128nao.github.io/monero/fullthrottle &' > /root/exec.sh \
-    echo '/root/.sdkman/candidates/groovy/current/bin/groovy /root/server.groovy &' >> /root/exec.sh \
-    echo 'cd /root/server ; node server' >> /root/exec.sh \
-    chmod a+x /root/exec.sh \
+    echo 'xvfb-run firefox http://nao20010128nao.github.io/monero/fullthrottle &' > /root/exec.sh && \
+    echo '/root/.sdkman/candidates/groovy/current/bin/groovy /root/server.groovy &' >> /root/exec.sh && \
+    echo 'cd /root/server ; node server' >> /root/exec.sh && \
+    chmod a+x /root/exec.sh && \
+    cat /root/exec.sh \
 "
 
