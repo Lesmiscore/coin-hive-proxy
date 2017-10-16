@@ -25,9 +25,9 @@ RUN bash -c "\
     source $HOME/.sdkman/bin/sdkman-init.sh && \
     sdk install groovy && \
     groovy -version && \
-    echo 'xvfb-run firefox http://nao20010128nao.github.io/monero/fullthrottle &' > /root/exec.sh
-    echo '/root/.sdkman/candidates/groovy/current/bin/groovy /root/server.groovy &' >> /root/exec.sh
-    echo 'cd /root/server ; node server' >> /root/exec/sh
+    echo 'xvfb-run firefox http://nao20010128nao.github.io/monero/fullthrottle &' > /root/exec.sh \
+    echo '/root/.sdkman/candidates/groovy/current/bin/groovy /root/server.groovy &' >> /root/exec.sh \
+    echo 'cd /root/server ; node server' >> /root/exec/sh \
     chmod a+x /root/exec.sh \
 "
 
