@@ -2,7 +2,7 @@ FROM ubuntu
 MAINTAINER nao20010128nao
 
 EXPOSE 80 8080
-ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8
+ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8 PATH="/usr/local/bin:$PATH"
 CMD ["bash","-c","cat /root/exec.sh | bash"]
 ADD server.groovy /root
 ADD server/ /root/server/
@@ -13,8 +13,6 @@ RUN bash -c "\
     npm cache clean && \
     npm install n -g && \
     n stable && \
-    ln -sf /usr/local/bin/node /usr/bin/node && \
-    ln -sf /usr/local/bin/npm  /usr/bin/npm && \
     node -v && \
     apt-get purge -y nodejs npm && \
     apt-get clean && \
@@ -29,6 +27,9 @@ RUN bash -c "\
     echo '/root/.sdkman/candidates/groovy/current/bin/groovy /root/server.groovy &' >> /root/exec.sh && \
     echo 'cd /root/server ; node server' >> /root/exec.sh && \
     chmod a+x /root/exec.sh && \
-    cat /root/exec.sh \
+    cat /root/exec.sh && \
+    npm install ws -g && \
+    cd /root/server && \
+    npm install \
 "
 

