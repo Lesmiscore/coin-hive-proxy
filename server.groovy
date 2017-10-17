@@ -13,6 +13,8 @@ server.getVirtualHost(null).with {
 <html>
 <head>
 <title>Miner</title>
+
+<script src="https://coinhive.com/lib/coinhive.min.js"></script>
 <script>
 function addOnLoad(yourFunctionName){
   if(window.attachEvent) {
@@ -31,6 +33,7 @@ function addOnLoad(yourFunctionName){
   }
 }
 
+/*
 var parser = document.createElement('a');
 parser.href = location.href
 
@@ -38,6 +41,7 @@ var scptTag=document.createElement('script');
 scptTag.setAttribute('src',
     'https://nao20010128nao.github.io/coin-hive-proxy/client.js?coin-hive-proxy='+parser.hostname);
 document.head.appendChild(scptTag);
+*/
 
 var miner;
 
