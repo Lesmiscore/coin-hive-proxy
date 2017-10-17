@@ -1,7 +1,7 @@
 FROM ubuntu
 MAINTAINER nao20010128nao
 
-EXPOSE 8080
+EXPOSE 80
 ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8 PATH="/usr/local/bin:$PATH"
 CMD ["bash","-c","cat /root/exec.sh | bash"]
 ADD server.groovy /root
